@@ -1,0 +1,21 @@
+# Maven
+target/
+*.log
+
+# VS Code
+.vscode/
+
+# IntelliJ / Eclipse
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Optional: local env files
+.env
+allure-results/
