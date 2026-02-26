@@ -26,12 +26,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 <version>4.22.0</version>
 </dependency>
 
-<dependency>
-<groupId>io.github.bonigarcia</groupId>
-<artifactId>webdrivermanager</artifactId>
-<version>5.9.2</version>
-</dependency>
-
 <!-- TestNG -->
 <dependency>
 <groupId>org.testng</groupId>
@@ -66,14 +60,12 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 <version>3.2.5</version>
 <configuration>
 <useModulePath>false</useModulePath>
+<includes>
+<include>**/TestRunner.java</include>
+</includes>
 </configuration>
 </plugin>
 </plugins>
 </build>
-
-
-
-
-
 
 </project>

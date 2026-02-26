@@ -14,7 +14,7 @@ public void setUp() {
 driver = DriverFactory.createDriver();
 }
 
-@AfterMethod
+@AfterMethod(alwaysRun = true)
 public void tearDown() {
 DriverFactory.quitDriver();
 }

@@ -1,57 +1,52 @@
 package com.automation.framework.base;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.Duration;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DriverFactory {
 
-    private static WebDriver driver;
+private static WebDriver driver;
 
-    public static WebDriver createDriver() {
-        if (driver != null)
-            return driver;
+public static WebDriver createDriver() {
 
-        ChromeOptions options = new ChromeOptions();
+if (driver == null) {
 
-        // ✅ IMPORTANT: use a fresh temp profile so it won’t open your company/startup
-        // page
-        try {
-            Path tempProfile = Files.createTempDirectory("selenium-chrome-profile-");
-            options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
-        } catch (Exception e) {
-            throw new RuntimeException("Could not create temp Chrome profile", e);
-        }
+System.setProperty("webdriver.edge.driver", "C:\\Drivers\\msedgedriver.exe");
 
-        // ✅ prevent “Who’s using Chrome” / first-run screens + reduce enterprise
-        // behaviors
-        options.addArguments("--no-first-run");
-        options.addArguments("--no-default-browser-check");
+EdgeOptions options = new EdgeOptions();
 
-        // ✅ disable extensions (company extensions often redirect to company portals)
-        options.addArguments("--disable-extensions");
-        options.addArguments("--disable-popup-blocking");
+String timestamp = LocalDateTime.now()
+.format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
-        // ✅ optional: start clean
-        options.addArguments("--start-maximized");
+String profilePath = "C:\\Drivers\\profiles\\profile_" + timestamp;
 
-        driver = new ChromeDriver(options);
+new File(profilePath).mkdirs();
 
-        // timeouts (helps avoid “hang” feeling)
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+options.addArguments("--user-data-dir=" + profilePath);
+options.addArguments("--no-first-run");
+options.addArguments("--no-default-browser-check");
+options.addArguments("--disable-extensions");
+options.addArguments("--start-maximized");
 
-        return driver;
-    }
+driver = new EdgeDriver(options);
+}
 
-    public static void quitDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-        }
-    }
+return driver;
+}
+
+public static WebDriver getDriver() {
+return driver;
+}
+
+public static void quitDriver() {
+if (driver != null) {
+driver.quit();
+driver = null;
+}
+}
 }
