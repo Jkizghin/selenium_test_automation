@@ -16,14 +16,17 @@ public static WebDriver createDriver() {
 
 if (driver == null) {
 
+// ✅ Use local EdgeDriver (no WebDriverManager)
 System.setProperty("webdriver.edge.driver", "C:\\Drivers\\msedgedriver.exe");
 
 EdgeOptions options = new EdgeOptions();
 
+// ✅ Create unique temp profile
 String timestamp = LocalDateTime.now()
 .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
-String profilePath = "C:\\Drivers\\profiles\\profile_" + timestamp;
+String baseTemp = System.getProperty("java.io.tmpdir");
+String profilePath = baseTemp + "\\selenium-profiles\\profile_" + timestamp;
 
 new File(profilePath).mkdirs();
 
