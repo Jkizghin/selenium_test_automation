@@ -10,46 +10,46 @@ import java.time.format.DateTimeFormatter;
 
 public class DriverFactory {
 
-private static WebDriver driver;
+    private static WebDriver driver;
 
-public static WebDriver createDriver() {
+    public static WebDriver createDriver() {
 
-if (driver == null) {
+        if (driver == null) {
 
-// ✅ Use local EdgeDriver (no WebDriverManager)
-System.setProperty("webdriver.edge.driver", "C:\\Drivers\\msedgedriver.exe");
+            // ✅ Use local EdgeDriver (no WebDriverManager)
+            System.setProperty("webdriver.edge.driver", "C:\\Drivers\\msedgedriver.exe");
 
-EdgeOptions options = new EdgeOptions();
+            EdgeOptions options = new EdgeOptions();
 
-// ✅ Create unique temp profile
-String timestamp = LocalDateTime.now()
-.format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            // ✅ Create unique temp profile
+            String timestamp = LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 
-String baseTemp = System.getProperty("java.io.tmpdir");
-String profilePath = baseTemp + "\\selenium-profiles\\profile_" + timestamp;
+            String baseTemp = System.getProperty("java.io.tmpdir");
+            String profilePath = baseTemp + "\\selenium-profiles\\profile_" + timestamp;
 
-new File(profilePath).mkdirs();
+            new File(profilePath).mkdirs();
 
-options.addArguments("--user-data-dir=" + profilePath);
-options.addArguments("--no-first-run");
-options.addArguments("--no-default-browser-check");
-options.addArguments("--disable-extensions");
-options.addArguments("--start-maximized");
+            options.addArguments("--user-data-dir=" + profilePath);
+            options.addArguments("--no-first-run");
+            options.addArguments("--no-default-browser-check");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--start-maximized");
 
-driver = new EdgeDriver(options);
-}
+            driver = new EdgeDriver(options);
+        }
 
-return driver;
-}
+        return driver;
+    }
 
-public static WebDriver getDriver() {
-return driver;
-}
+    public static WebDriver getDriver() {
+        return driver;
+    }
 
-public static void quitDriver() {
-if (driver != null) {
-driver.quit();
-driver = null;
-}
-}
+    public static void quitDriver() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+    }
 }

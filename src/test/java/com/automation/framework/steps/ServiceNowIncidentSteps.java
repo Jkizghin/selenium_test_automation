@@ -9,23 +9,30 @@ import com.automation.framework.pages.ServiceNowIncidentPage;
 
 public class ServiceNowIncidentSteps {
 
-private WebDriver driver;
-private ServiceNowIncidentPage incidentPage;
+    private WebDriver driver;
+    private ServiceNowIncidentPage incidentPage;
 
-public ServiceNowIncidentSteps() {
-driver = DriverFactory.getDriver();
-incidentPage = new ServiceNowIncidentPage(driver);
-}
+    public ServiceNowIncidentSteps() {
+        driver = DriverFactory.getDriver();
+        incidentPage = new ServiceNowIncidentPage(driver);
+    }
 
-@When("I navigate to incident page")
-public void i_navigate_to_incident_page() {
-incidentPage.goToCreateNewIncident();
-System.out.println("=== INCIDENT: Navigated to Create New Incident URL ===");
-}
+    @When("I navigate to incident page")
+    public void i_navigate_to_incident_page() {
+        incidentPage.goToCreateNewIncident();
+        System.out.println("=== INCIDENT: Navigated to Create New Incident URL ===");
+    }
 
-@Then("I should see incident page loaded")
-public void i_should_see_incident_page_loaded() {
-incidentPage.waitForCreateNewIncidentForm();
-System.out.println("=== INCIDENT: Create New Incident form is loaded ===");
-}
+    @When("I enter incident values")
+    public void enter_incident_values() {
+        System.out.println("=== Incident Creation: enter values ===");
+        // incidentPage.populateIncident();
+        System.out.println("=== Incident Creation: values entered ===");
+    }
+
+    @Then("I should see incident page loaded")
+    public void i_should_see_incident_page_loaded() {
+        incidentPage.waitForCreateNewIncidentForm();
+        System.out.println("=== INCIDENT: Create New Incident form is loaded ===");
+    }
 }

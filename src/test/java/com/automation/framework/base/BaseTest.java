@@ -7,15 +7,15 @@ import org.openqa.selenium.WebDriver;
 
 public class BaseTest {
 
-protected WebDriver driver;
+    protected WebDriver driver;
 
-@BeforeMethod
-public void setUp() {
-driver = DriverFactory.createDriver();
-}
+    @BeforeMethod
+    public void setUp() {
+        driver = DriverFactory.createDriver();
+    }
 
-@AfterMethod(alwaysRun = true)
-public void tearDown() {
-DriverFactory.quitDriver();
-}
+    @AfterMethod(alwaysRun = true)
+    public void tearDown() {
+        DriverFactory.quitDriver();
+    }
 }
