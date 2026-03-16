@@ -1,7 +1,9 @@
-Feature: ServiceNow Authentication
+@allure.label.epic:Web
+@allure.label.parentSuite:ServiceNow
+Feature: Authentication
 
 @servicenow_auth
-Scenario: Login to ServiceNow
+Scenario: ServiceNow Authentication
 
 Given I open the browser for authentication
 When I navigate to authentication url "https://gditsharedtest.servicenowservices.com"

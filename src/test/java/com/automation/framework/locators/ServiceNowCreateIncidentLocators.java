@@ -15,13 +15,14 @@ public class ServiceNowCreateIncidentLocators {
    
    // In Progress flow
    public static final By STATE = By.id("u_incident_snts.state");
-
    public static final By ASSIGNMENT_GROUP = By.id("sys_display.u_incident_snts.assignment_group");
-
    public static final By ASSIGNED_TO = By.id("sys_display.u_incident_snts.assigned_to");
 
-   // Future (when you move to Resolve flow)
+   // Resolved flow
    public static final By RESOLUTION_INFORMATION_TAB =By.xpath("//span[text()='Resolution Information']");
    public static final By RESOLUTION_CODE = By.id("u_incident_snts.close_code");
    public static final By RESOLUTION_NOTES = By.id("u_incident_snts.close_notes");
+
+   // Close flow
+   public static final By CLOSE_INCIDENT_BUTTON = By.id("close_incident");
 }

@@ -1,14 +1,12 @@
 package com.automation.framework.pages;
 
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import static com.automation.framework.locators.ServiceNowCreateIncidentLocators.*;
 import com.automation.framework.base.UiActions;
 import com.automation.framework.locators.ServiceNowCreateIncidentLocators;
 
@@ -146,6 +144,42 @@ public class ServiceNowIncidentPage extends UiActions {
 
         System.out.println("[SN] Resolution Information entered.");
     }
+    
+    /** Navigateback to Incident page and wait until it is loaded. */
+    public void navigateBackToIncident(String url) {
+
+        System.out.println("[SN] Navigating back to Incident");
+
+        smallWait(5000);
+        driver.get(url);
+        smallWait(5000);
+        waitForPageReady();
+
+        System.out.println("[SN] Locating gsft_main iframe inside shadow DOM");
+
+        WebElement frame = wait.until(d -> getGsftMainFrame());
+
+        // IMPORTANT: reset context before switching
+        driver.switchTo().defaultContent();
+        driver.switchTo().frame(frame);
+
+        System.out.println("[SN] Switched into gsft_main iframe");
+
+        // quick sanity check (should be 1 when inside correct iframe)
+        System.out.println("[SN] short desc count=" +
+                driver.findElements(ServiceNowCreateIncidentLocators.SHORT_DESCRIPTION).size());
+
+        waitForIncidentFormToLoadNonClickable();
+
+        System.out.println("[SN] Navigated back to Incident page. Title=" + safeTitle());
+        System.out.println("[SN] URL=" + driver.getCurrentUrl());
+    }
+
+    public void clickCloseIncident() {
+        click(ServiceNowCreateIncidentLocators.CLOSE_INCIDENT_BUTTON);
+        System.out.println("[SN] Close incident button clicked.");
+    }
+
     // ---------------- Core helpers ----------------
 
     private void waitForPageReady() {
@@ -172,6 +206,16 @@ public class ServiceNowIncidentPage extends UiActions {
                 ServiceNowCreateIncidentLocators.SHORT_DESCRIPTION));
 
         System.out.println("[SN] Incident form detected");
+    }
+
+    public void waitForIncidentFormToLoadNonClickable() {
+
+        System.out.println("[SN] Waiting for incident form to load (non-clickable)");
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                ServiceNowCreateIncidentLocators.SHORT_DESCRIPTION));
+
+        System.out.println("[SN] Incident form detected (non-clickable)");
     }
 
     // HELPER METHOD

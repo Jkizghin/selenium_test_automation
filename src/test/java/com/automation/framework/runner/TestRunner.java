@@ -5,12 +5,13 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(features = "src/test/resources/features", 
         glue = "com.automation.framework", 
-        tags = "@incident", 
+        // tags = "@incident", 
         monochrome = true, 
         plugin = {
         "pretty",
         "html:target/cucumber-report/cucumber.html",
-        "json:target/cucumber-report/cucumber.json"
+        "json:target/cucumber-report/cucumber.json",
+        "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
 })
 public class TestRunner extends AbstractTestNGCucumberTests {
 }
