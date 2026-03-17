@@ -19,3 +19,7 @@ Thumbs.db
 # Optional: local env files
 .env
 allure-results/
+
+
+# ignore config properties file that contains sensitive information
+src/test/resources/config.properties
