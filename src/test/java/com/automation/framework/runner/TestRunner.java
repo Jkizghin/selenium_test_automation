@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(features = "src/test/resources/features", 
         glue = "com.automation.framework", 
-        // tags = "@incident", 
+        tags = "@generalCloudServicesRequest",
         monochrome = true, 
         plugin = {
         "pretty",

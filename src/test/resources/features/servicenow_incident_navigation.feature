@@ -7,7 +7,6 @@ Feature: Incident Navigation
 @incident
 Scenario: ServiceNow Incident Navigation
 
-
 When I navigate to incident page
 And I enter incident values
 And I close the incident
