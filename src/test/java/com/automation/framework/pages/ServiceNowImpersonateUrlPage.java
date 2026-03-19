@@ -17,6 +17,9 @@ public class ServiceNowImpersonateUrlPage extends UiActions {
 
     /** Navigate to Impersonate page and wait until it is loaded. */
     public void goToImpersonateUrl() {
+       //add 5 seconds wait before navigating to impersonate URL to avoid ServiceNow async loading
+        smallWait(5000);
+
 
         driver.get(IMPERSONATE_URL);
         waitForPageReady();

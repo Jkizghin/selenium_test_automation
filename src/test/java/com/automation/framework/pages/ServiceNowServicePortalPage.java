@@ -27,8 +27,79 @@ public class ServiceNowServicePortalPage extends UiActions {
 
         // Click "Request Something"
         click(ServiceNowServicePortalLocators.REQUEST_SOMETHING);
+        System.out.println("[SP] Clicked Request Something");
+        // Click "Cloud Services" link to navigate to general cloud services
+        clickCloudServicesLink();
+        clickGeneralCloudServicesRequest();
+        System.out.println("[SP] General Cloud Services Request page loaded");
+    }
 
-        // TODO: add more navigation steps here to get to the actual request form
+    /** Navigate to Cloud Services by clicking on the Cloud Services link. */
+
+    public void clickCloudServicesLink() {
+        System.out.println("[SP] Navigating to Cloud Services");
+
+        try {
+            WebElement el = wait.until(
+                    ExpectedConditions.presenceOfElementLocated(
+                            ServiceNowServicePortalLocators.CLOUD_SERVICES));
+
+            System.out.println("[SP] Cloud Services span found");
+            System.out.println("[SP] Displayed: " + el.isDisplayed());
+            System.out.println("[SP] Enabled: " + el.isEnabled());
+
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].scrollIntoView({block:'center'});",
+                    el);
+
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].click();",
+                    el);
+
+            System.out.println("[SP] Cloud Services clicked");
+
+            waitForPageReady();
+            System.out.println("[SP] Cloud Services page loaded");
+
+        } catch (Exception e) {
+            System.out.println("[SP] ERROR TYPE: " + e.getClass().getName());
+            System.out.println("[SP] ERROR MESSAGE: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Could not click Cloud Services link", e);
+        }
+    }
+    // Click General Cloud Services Request link to navigate to the request page
+
+    public void clickGeneralCloudServicesRequest() {
+        System.out.println("[SP] Opening General Cloud Services Request");
+
+        try {
+            WebElement el = wait.until(
+                    ExpectedConditions.presenceOfElementLocated(
+                            ServiceNowServicePortalLocators.GENERAL_CLOUD_SERVICES_REQUEST));
+
+            System.out.println("[SP] General Cloud Services Request found");
+            System.out.println("[SP] Displayed: " + el.isDisplayed());
+            System.out.println("[SP] Enabled: " + el.isEnabled());
+
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].scrollIntoView({block:'center'});",
+                    el);
+
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].click();",
+                    el);
+
+            System.out.println("[SP] General Cloud Services Request clicked");
+
+            waitForPageReady();
+
+        } catch (Exception e) {
+            System.out.println("[SP] ERROR TYPE: " + e.getClass().getName());
+            System.out.println("[SP] ERROR MESSAGE: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Could not click General Cloud Services Request", e);
+        }
     }
 
     // ---------------- Core helpers ----------------
@@ -58,5 +129,4 @@ public class ServiceNowServicePortalPage extends UiActions {
 
         System.out.println("[SP] Service Portal detected");
     }
-
 }
