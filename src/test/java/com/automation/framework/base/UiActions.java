@@ -115,4 +115,41 @@ public class UiActions {
             e.printStackTrace();
         }
     }
+
+    //
+    public static String summarize(WebElement el) {
+        String tag = safeAttr2(el, "tagName"); // not a real attribute; we’ll use el.getTagName()
+        String id = safeAttr2(el, "id");
+        String name = safeAttr2(el, "name");
+        String cls = safeAttr2(el, "class");
+        String text = safeText(el, 80); // trim to a maximum length
+
+        return String.format("<%s id=\"%s\" name=\"%s\" class=\"%s\"> text=\"%s\"",
+                tag, id, name, cls, text);
+    }
+
+    private static String safeAttr2(WebElement el, String attr) {
+        try {
+            if ("tagName".equals(attr))
+                return el.getTagName();
+            String v = el.getAttribute(attr);
+            return v == null ? "" : v;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static String safeText(WebElement el, int maxLen) {
+        try {
+            String t = el.getText();
+            if (t == null)
+                return "";
+            t = t.replace("\n", " ").trim();
+            if (t.length() > maxLen)
+                t = t.substring(0, maxLen) + "…";
+            return t;
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }

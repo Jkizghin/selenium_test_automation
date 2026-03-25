@@ -24,6 +24,13 @@ public class ServiceNowIncidentSteps {
 
     @When("I navigate to incident page")
     public void i_navigate_to_incident_page() {
+        // add 5 second wait
+        try {
+            Thread.sleep(5000); // 5 seconds
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         incidentPage.goToCreateNewIncident();
         System.out.println("=== INCIDENT: Navigated to Create New Incident ===");
     }

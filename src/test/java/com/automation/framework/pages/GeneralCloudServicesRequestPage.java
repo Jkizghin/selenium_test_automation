@@ -11,64 +11,73 @@ import java.time.Duration;
 
 import com.automation.framework.base.UiActions;
 import com.automation.framework.locators.GeneralCloudServicesRequestLocators;
+import com.automation.framework.locators.ServiceNowServicePortalLocators;
 
 public class GeneralCloudServicesRequestPage extends UiActions {
 
-    public GeneralCloudServicesRequestPage(WebDriver driver) {
-        super(driver);
-    }
+        public GeneralCloudServicesRequestPage(WebDriver driver) {
+                super(driver);
+        }
 
-    public void fillAndSubmitRequest(String requestedFor,
-            String shortDescription,
-            String additionalComments) {
+        public void fillAndSubmitRequest(String requestedFor,
+                        String shortDescription,
+                        String additionalComments) {
 
-        System.out.println("[SP] Filling General Cloud Services Request form");
+                System.out.println("[SP] Filling General Cloud Services Request form");
 
-        typeRequestedFor(requestedFor);
+                typeRequestedFor(requestedFor);
 
-        type(GeneralCloudServicesRequestLocators.SHORT_DESCRIPTION, shortDescription);
-        type(GeneralCloudServicesRequestLocators.ADDITIONAL_COMMENTS, additionalComments);
+                type(GeneralCloudServicesRequestLocators.SHORT_DESCRIPTION, shortDescription);
+                type(GeneralCloudServicesRequestLocators.ADDITIONAL_COMMENTS, additionalComments);
 
-        wait.until(ExpectedConditions.elementToBeClickable(
-                GeneralCloudServicesRequestLocators.SUBMIT_BUTTON));
+                wait.until(ExpectedConditions.elementToBeClickable(
+                                GeneralCloudServicesRequestLocators.SUBMIT_BUTTON));
 
-        click(GeneralCloudServicesRequestLocators.SUBMIT_BUTTON);
+                click(GeneralCloudServicesRequestLocators.SUBMIT_BUTTON);
 
-        System.out.println("[SP] Submitted General Cloud Services Request");
-    }
+                System.out.println("[SP] Submitted General Cloud Services Request");
+        }
 
+        private void typeRequestedFor(String name) {
+                System.out.println("[SP] Filling Requested For: " + name);
 
-    private void typeRequestedFor(String name) {
-        System.out.println("[SP] Filling Requested For: " + name);
+                // 1. Open dropdown (real Select2 UI)
+                WebElement dropdown = wait.until(
+                                ExpectedConditions.elementToBeClickable(
+                                                GeneralCloudServicesRequestLocators.REQUESTED_FOR_DROPDOWN));
 
-        // 1. Open dropdown (real Select2 UI)
-        WebElement dropdown = wait.until(
-                ExpectedConditions.elementToBeClickable(
-                        GeneralCloudServicesRequestLocators.REQUESTED_FOR_DROPDOWN));
+                ((JavascriptExecutor) driver).executeScript(
+                                "arguments[0].scrollIntoView({block:'center'});", dropdown);
 
-        ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView({block:'center'});", dropdown);
+                dropdown.click();
 
-        dropdown.click();
+                System.out.println("[SP] Requested For dropdown opened");
 
-        System.out.println("[SP] Requested For dropdown opened");
+                // 2. Type using keyboard (Select2 expects keyboard events)
+                Actions actions = new Actions(driver);
 
-        
-        // 2. Type using keyboard (Select2 expects keyboard events)
-        Actions actions = new Actions(driver);
+                actions
+                                .sendKeys(name)
+                                .pause(Duration.ofMillis(800)) // wait for results to load
+                                .sendKeys(Keys.ARROW_DOWN)
+                                .sendKeys(Keys.ENTER)
+                                .perform();
 
-        actions
-                .sendKeys(name)
-                .pause(Duration.ofMillis(800)) // wait for results to load
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ENTER)
-                .perform();
+                System.out.println("[SP] Typed and selected: " + name);
 
-        System.out.println("[SP] Typed and selected: " + name);
+                // 4. Optional: ensure dropdown closed (stability)
+                wait.until(
+                                ExpectedConditions.invisibilityOfElementLocated(By.id("select2-drop-mask")));
+        }
 
-        // 4. Optional: ensure dropdown closed (stability)
-        wait.until(
-                ExpectedConditions.invisibilityOfElementLocated(By.id("select2-drop-mask")));
-    }
+        // get RITM number after submission
+        public String getCreatedRitmNumber() {
+                String ritm = wait.until(
+                                ExpectedConditions.visibilityOfElementLocated(
+                                                GeneralCloudServicesRequestLocators.CREATED_RITM))
+                                .getText().trim();
+                return ritm;
+
+        }
 
 }

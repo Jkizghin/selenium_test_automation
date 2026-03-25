@@ -7,22 +7,28 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.automation.framework.base.DriverFactory;
 import com.automation.framework.pages.GeneralCloudServicesRequestPage;
+import com.automation.framework.pages.ServiceNowHomePage;
 import com.automation.framework.pages.ServiceNowImpersonateUrlPage;
 import com.automation.framework.pages.ServiceNowServicePortalPage;
+import com.automation.framework.pages.ServiceNowRitmPage;
 // import dev.failsafe.internal.util.Assert;
 
 public class ServiceNowGeneralCloudServicesRequestSteps {
-    private GeneralCloudServicesRequestPage generalCloudServicesRequestPage;
 
     private WebDriver driver;
     private ServiceNowServicePortalPage servicePortalPage;
     private ServiceNowImpersonateUrlPage impersonatePage;
+    private GeneralCloudServicesRequestPage generalCloudServicesRequestPage;
+    private ServiceNowHomePage serviceNowHomePage;
+    private ServiceNowRitmPage serviceNowRitmPage;
 
     public ServiceNowGeneralCloudServicesRequestSteps() {
         driver = DriverFactory.getDriver();
         servicePortalPage = new ServiceNowServicePortalPage(driver);
         impersonatePage = new ServiceNowImpersonateUrlPage(driver);
         generalCloudServicesRequestPage = new GeneralCloudServicesRequestPage(driver);
+        serviceNowHomePage = new ServiceNowHomePage(driver);
+        serviceNowRitmPage = new ServiceNowRitmPage(driver);
     }
 
     @When("I navigate to service portal")
@@ -51,12 +57,14 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
 
     @And("I fill and submit the general cloud services request")
     public void i_fill_and_submit_the_general_cloud_services_request() {
-
+ 
         generalCloudServicesRequestPage.fillAndSubmitRequest(
                 "Tester Customer Test 1",
-                "Test automation request",
-                "This is automated test submission");
-
+                "Selenium Test - Test short description",
+                "Selenium Test - Test additional comments");
+        String createdRitm = generalCloudServicesRequestPage.getCreatedRitmNumber();
+        System.out.println("[SP] Captured RITM: " + createdRitm);
+ 
         System.out.println("=== REQUEST: Filled and submitted General Cloud Services Request ===");
     }
 
@@ -65,6 +73,29 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
         System.out.println("=== REQUEST: Navigating to RITM ===");
 
         // code here
+        String createdRitm = generalCloudServicesRequestPage.getCreatedRitmNumber();
+        System.out.println("[SP] Captured RITM2: " + createdRitm);
+
+        driver.switchTo().defaultContent(); // Ensure we're out of any iframes
+
+        impersonatePage.goToImpersonateUrl();
+        String endImpersonation = "GDIT Selenium Test Automation User";
+        impersonatePage.impersonateUser(endImpersonation);
+        impersonatePage.clickOkButton();
+
+        impersonatePage.goToImpersonateUrl();
+        String userToImpersonate = "Tester Specialist Test 1";
+        impersonatePage.impersonateUser(userToImpersonate);
+        impersonatePage.clickOkButton();
+
+        // Search for the RITM in the search bar
+        serviceNowHomePage.searchGlobalBar(createdRitm);
+
+        /**
+         * TODO: add form validation
+         * - variables are non-editable
+         * - assignment group CloudFinOps
+         */
 
         System.out.println("=== REQUEST: Navigated to RITM ===");
     }
@@ -73,7 +104,20 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
     public void i_close_the_catalog_task() {
         System.out.println("=== REQUEST: Closing Catalog Task ===");
 
-        // code here
+        serviceNowRitmPage.waitForRitmPageToLoad();
+
+        // update state to "Work in Progress" and save
+        serviceNowRitmPage.updateState("Work in Progress");
+        serviceNowRitmPage.clickSaveButtonAfterUpdate();
+
+        /**
+         * TODO: open sctask
+         * state: Work in Progress
+         * save
+         * add work notes: Selenium Test - Test Work notes
+         * post
+         * close task
+         */
 
         System.out.println("=== REQUEST: Closed Catalog Task ===");
     }
@@ -82,7 +126,7 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
     public void i_close_the_ritm() {
         System.out.println("=== REQUEST: Closing RITM ===");
 
-        // code here
+        // state should be Closed Complete
 
         System.out.println("=== REQUEST: Closed RITM ===");
     }
@@ -91,7 +135,7 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
     public void i_should_see_the_closed_ritm() {
         System.out.println("=== REQUEST: Checking for closed RITM ===");
 
-        // code here
+        // verify RITM is closed
 
         System.out.println("=== REQUEST: verified closed RITM ===");
     }

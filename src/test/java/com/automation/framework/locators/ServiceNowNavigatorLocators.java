@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 
 public class ServiceNowNavigatorLocators {
 
+    public static final By SEARCH_BAR = By.cssSelector("input[id='sncwsgs-typeahead-input']");
+
     public static final By ALL_BUTTON = By.cssSelector("div[role='menuitem'][aria-label='All']");
 
     // Navigator filter input

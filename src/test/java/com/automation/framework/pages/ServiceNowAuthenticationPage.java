@@ -14,6 +14,13 @@ public class ServiceNowAuthenticationPage {
 
     public void login(String username, String password) {
 
+        // add 5 second wait
+        try {
+            Thread.sleep(5000); // 5 seconds
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         // Always reset frame first
         driver.switchTo().defaultContent();
 

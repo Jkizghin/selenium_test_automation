@@ -68,8 +68,8 @@ public class ServiceNowServicePortalPage extends UiActions {
             throw new RuntimeException("Could not click Cloud Services link", e);
         }
     }
-    // Click General Cloud Services Request link to navigate to the request page
 
+    // Click General Cloud Services Request link to navigate to the request page
     public void clickGeneralCloudServicesRequest() {
         System.out.println("[SP] Opening General Cloud Services Request");
 
