@@ -11,5 +11,4 @@ And I open a general cloud services request
 And I fill and submit the general cloud services request
 And I navigate to the RITM
 And I close the catalog task
-And I close the RITM
 Then I should see the closed RITM

@@ -11,6 +11,7 @@ import com.automation.framework.pages.ServiceNowHomePage;
 import com.automation.framework.pages.ServiceNowImpersonateUrlPage;
 import com.automation.framework.pages.ServiceNowServicePortalPage;
 import com.automation.framework.pages.ServiceNowRitmPage;
+import org.testng.Assert;
 // import dev.failsafe.internal.util.Assert;
 
 public class ServiceNowGeneralCloudServicesRequestSteps {
@@ -57,14 +58,14 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
 
     @And("I fill and submit the general cloud services request")
     public void i_fill_and_submit_the_general_cloud_services_request() {
- 
+
         generalCloudServicesRequestPage.fillAndSubmitRequest(
                 "Tester Customer Test 1",
                 "Selenium Test - Test short description",
                 "Selenium Test - Test additional comments");
         String createdRitm = generalCloudServicesRequestPage.getCreatedRitmNumber();
         System.out.println("[SP] Captured RITM: " + createdRitm);
- 
+
         System.out.println("=== REQUEST: Filled and submitted General Cloud Services Request ===");
     }
 
@@ -109,9 +110,16 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
         // update state to "Work in Progress" and save
         serviceNowRitmPage.updateState("Work in Progress");
         serviceNowRitmPage.clickSaveButtonAfterUpdate();
+        serviceNowRitmPage.openCatalogTasksTab();
+        serviceNowRitmPage.openCatalogTask();
+        serviceNowRitmPage.updateCatalogTaskState("Work in Progress");
+        serviceNowRitmPage.clickCatalogTaskSaveButton();
+        serviceNowRitmPage.enterWorkNotes("Selenium Test -Test Work Notes");
+        serviceNowRitmPage.clickPostButton();
+        serviceNowRitmPage.clickCloseTaskButton();
 
         /**
-         * TODO: open sctask
+         * TODO: open task
          * state: Work in Progress
          * save
          * add work notes: Selenium Test - Test Work notes
@@ -122,20 +130,16 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
         System.out.println("=== REQUEST: Closed Catalog Task ===");
     }
 
-    @When("I close the RITM")
-    public void i_close_the_ritm() {
-        System.out.println("=== REQUEST: Closing RITM ===");
-
-        // state should be Closed Complete
-
-        System.out.println("=== REQUEST: Closed RITM ===");
-    }
-
     @Then("I should see the closed RITM")
     public void i_should_see_the_closed_ritm() {
         System.out.println("=== REQUEST: Checking for closed RITM ===");
+        serviceNowRitmPage.refreshPage();
 
-        // verify RITM is closed
+        String actualState = serviceNowRitmPage.getRitmState();
+        String actualStage = serviceNowRitmPage.getRitmStage();
+
+        Assert.assertEquals(actualState, "Closed Complete", "RITM state is not Closed Complete");
+        Assert.assertEquals(actualStage, "Completed", "RITM stage is not Completed");
 
         System.out.println("=== REQUEST: verified closed RITM ===");
     }

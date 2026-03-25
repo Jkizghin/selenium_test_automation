@@ -11,6 +11,7 @@ import java.time.Duration;
 
 import com.automation.framework.base.UiActions;
 import com.automation.framework.locators.GeneralCloudServicesRequestLocators;
+import com.automation.framework.locators.ServiceNowRitmLocators;
 import com.automation.framework.locators.ServiceNowServicePortalLocators;
 
 public class GeneralCloudServicesRequestPage extends UiActions {
@@ -80,4 +81,5 @@ public class GeneralCloudServicesRequestPage extends UiActions {
 
         }
 
+        
 }

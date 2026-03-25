@@ -7,6 +7,8 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+
 import com.automation.framework.base.UiActions;
 import com.automation.framework.locators.ServiceNowRitmLocators;
 
@@ -172,6 +174,135 @@ public class ServiceNowRitmPage extends UiActions {
             // OK only if caller uses wait.until(...)
             return null;
         }
+    }
+
+    public void openCatalogTasksTab() {
+        WebElement tab = wait.until(
+                ExpectedConditions
+                        .visibilityOfElementLocated(ServiceNowRitmLocators.CATALOG_TASKS_TAB));
+
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block:'center'});", tab);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            ;
+        }
+
+        wait.until(ExpectedConditions.elementToBeClickable(tab)).click();
+
+        System.out.println("[SN] Opened Catalog Tasks tab");
+    }
+
+    public void openCatalogTask() {
+        WebElement task = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        ServiceNowRitmLocators.CATALOG_TASK));
+
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block:'center'});", task);
+
+        wait.until(ExpectedConditions.elementToBeClickable(task)).click();
+
+        System.out.println("[SN] Opened Catalog Task");
+    }
+
+    public void updateCatalogTaskState(String stateValue) {
+        WebElement stateDropdown = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        ServiceNowRitmLocators.CATALOG_TASK_STATE));
+
+        Select select = new Select(stateDropdown);
+        select.selectByVisibleText(stateValue);
+
+        System.out.println("[SN] Catalog Task state set to: " + stateValue);
+    }
+
+    public void clickCatalogTaskSaveButton() {
+        WebElement saveBtn = wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        ServiceNowRitmLocators.SAVE_BUTTON));
+
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block:'center'});", saveBtn);
+
+        saveBtn.click();
+
+        System.out.println("[SN] Save (Update & Stay) button clicked");
+    }
+
+    public void enterWorkNotes(String notes) {
+        WebElement workNotes = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        ServiceNowRitmLocators.WORK_NOTES));
+
+        workNotes.clear();
+        workNotes.sendKeys(notes);
+
+        System.out.println("[SN] Work notes entered");
+    }
+
+    public void clickPostButton() {
+        WebElement postBtn = wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        ServiceNowRitmLocators.POST_BUTTON));
+
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block:'center'});", postBtn);
+
+        postBtn.click();
+
+        System.out.println("[SN] Post button clicked");
+    }
+
+    public void clickCloseTaskButton() {
+
+        WebElement closeBtn = wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        ServiceNowRitmLocators.CLOSE_TASK_BUTTON));
+
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block:'center'});", closeBtn);
+
+        closeBtn.click();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // wait for action to complete, adjust as needed
+        System.out.println("[SN] Close Task button clicked");
+    }
+
+    public void refreshPage() {
+        driver.navigate().refresh();
+        waitForRitmPageToLoad();
+        System.out.println("[SN] RITM page refreshed");
+    }
+
+    public String getRitmState() {
+        WebElement stateDropdown = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        ServiceNowRitmLocators.RITM_STATE));
+
+        Select select = new Select(stateDropdown);
+        String selectedText = select.getFirstSelectedOption().getText().trim();
+
+        System.out.println("[SN] RITM state text: " + selectedText);
+        return selectedText;
+    }
+
+    public String getRitmStage() {
+        WebElement stageDropdown = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(
+                        ServiceNowRitmLocators.RITM_STAGE));
+
+        Select select = new Select(stageDropdown);
+        String selectedText = select.getFirstSelectedOption().getText().trim();
+
+        System.out.println("[SN] RITM stage text: " + selectedText);
+        return selectedText;
     }
 
 }
