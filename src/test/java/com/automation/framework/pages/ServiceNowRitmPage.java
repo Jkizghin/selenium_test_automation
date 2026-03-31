@@ -151,8 +151,8 @@ public class ServiceNowRitmPage extends UiActions {
             System.out.println("[DEBUG] Found sn-polaris-layout (via slot)");
 
             // STEP 8: shadowRoot4
-            SearchContext shadowRoot4 = host4.getShadowRoot();
-            System.out.println("[DEBUG] Entered shadowRoot4");
+            // SearchContext shadowRoot4 = host4.getShadowRoot();
+            // System.out.println("[DEBUG] Entered shadowRoot4");
 
             // STEP 9: Find iframe#gsft_main (WAIT) ✅ (slotted / light DOM, NOT inside
             // shadowRoot4)
