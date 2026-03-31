@@ -22,6 +22,7 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
     private GeneralCloudServicesSubmittedRequestPage generalCloudServicesSubmittedRequestPage;
     private ServiceNowHomePage serviceNowHomePage;
     private ServiceNowRitmPage serviceNowRitmPage;
+    private String createdRitm;
 
     public ServiceNowGeneralCloudServicesRequestSteps() {
         driver = DriverFactory.getDriver();
@@ -63,10 +64,22 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
                 "Tester Customer Test 1",
                 "Selenium Test - Test short description",
                 "Selenium Test - Test additional comments");
-        String createdRitm = generalCloudServicesSubmittedRequestPage.getCreatedRitmNumber();
+        createdRitm = generalCloudServicesSubmittedRequestPage.getCreatedRitmNumber();
         System.out.println("[SP] Captured RITM: " + createdRitm);
 
         System.out.println("=== REQUEST: Filled and submitted General Cloud Services Request ===");
+    }
+
+    @When("I validate widgets on the General Cloud Services Request Page")
+    public void i_validate_widgets() {
+        System.out.println("=== REQUEST: Validating widgets ===");
+
+        /**
+         * TODO: add widget validation
+         * ex: request details widget
+         */
+        
+        System.out.println("=== REQUEST: Validating widgets Completed ===");
     }
 
     @When("I navigate to the RITM")
@@ -74,7 +87,7 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
         System.out.println("=== REQUEST: Navigating to RITM ===");
 
         // code here
-        String createdRitm = generalCloudServicesSubmittedRequestPage.getCreatedRitmNumber();
+        // String createdRitm = generalCloudServicesSubmittedRequestPage.getCreatedRitmNumber();
         System.out.println("[SP] Captured RITM2: " + createdRitm);
 
         /**
