@@ -152,4 +152,15 @@ public class UiActions {
             return "";
         }
     }
+
+    public void assertElementDisplayed(By locator, String elementName) {
+        WebElement element = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(locator));
+
+        if (!element.isDisplayed()) {
+            throw new AssertionError(elementName + " is NOT displayed");
+        }
+
+        System.out.println("[PASS] " + elementName + " is displayed");
+    }
 }

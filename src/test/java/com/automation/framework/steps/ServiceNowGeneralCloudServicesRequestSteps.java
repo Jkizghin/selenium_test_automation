@@ -3,6 +3,9 @@ package com.automation.framework.steps;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
+import java.security.PrivateKey;
+
 import org.openqa.selenium.WebDriver;
 import com.automation.framework.base.DriverFactory;
 import com.automation.framework.pages.GeneralCloudServicesSubmittedRequestPage;
@@ -23,6 +26,7 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
     private ServiceNowHomePage serviceNowHomePage;
     private ServiceNowRitmPage serviceNowRitmPage;
     private String createdRitm;
+    private GeneralCloudServicesRequestPage generalCloudServicesRequestPage;
 
     public ServiceNowGeneralCloudServicesRequestSteps() {
         driver = DriverFactory.getDriver();
@@ -31,6 +35,7 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
         generalCloudServicesSubmittedRequestPage = new GeneralCloudServicesSubmittedRequestPage(driver);
         serviceNowHomePage = new ServiceNowHomePage(driver);
         serviceNowRitmPage = new ServiceNowRitmPage(driver);
+        generalCloudServicesRequestPage = new GeneralCloudServicesRequestPage(driver);
     }
 
     @When("I navigate to service portal")
@@ -73,12 +78,8 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
     @When("I validate widgets on the General Cloud Services Request Page")
     public void i_validate_widgets() {
         System.out.println("=== REQUEST: Validating widgets ===");
-
-        /**
-         * TODO: add widget validation
-         * ex: request details widget
-         */
-        
+        generalCloudServicesRequestPage.openCloudServiceRequestDetails();
+        generalCloudServicesRequestPage.validateGeneralCloudServiceRequestWidgets();
         System.out.println("=== REQUEST: Validating widgets Completed ===");
     }
 
@@ -87,13 +88,9 @@ public class ServiceNowGeneralCloudServicesRequestSteps {
         System.out.println("=== REQUEST: Navigating to RITM ===");
 
         // code here
-        // String createdRitm = generalCloudServicesSubmittedRequestPage.getCreatedRitmNumber();
+        // String createdRitm =
+        // generalCloudServicesSubmittedRequestPage.getCreatedRitmNumber();
         System.out.println("[SP] Captured RITM2: " + createdRitm);
-
-        /**
-         * TODO: add widget validation
-         * ex: request details widget
-         */
 
         driver.switchTo().defaultContent(); // Ensure we're out of any iframes
 

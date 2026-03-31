@@ -11,6 +11,8 @@ import java.time.Duration;
 
 import com.automation.framework.base.UiActions;
 // import com.automation.framework.locators.GeneralCloudServicesRequestLocators;
+import com.automation.framework.locators.GeneralCloudServicesRequestLocators;
+import com.automation.framework.locators.GeneralCloudServicesSubmittedRequestLocators;
 
 public class GeneralCloudServicesRequestPage extends UiActions {
 
@@ -18,5 +20,15 @@ public class GeneralCloudServicesRequestPage extends UiActions {
                 super(driver);
         }
 
-        
+        public void openCloudServiceRequestDetails() {
+                click(GeneralCloudServicesSubmittedRequestLocators.CLOUD_SERVICE_REQUEST_LINK);
+        }
+
+        public void validateGeneralCloudServiceRequestWidgets() {
+                assertElementDisplayed(GeneralCloudServicesRequestLocators.REQUESTED_BY, "Requested By");
+                assertElementDisplayed(GeneralCloudServicesRequestLocators.REQUESTED_FOR, "Requested For");
+                assertElementDisplayed(GeneralCloudServicesRequestLocators.SHORT_DESCRIPTION, "Short Description");
+                assertElementDisplayed(GeneralCloudServicesRequestLocators.ADDITIONAL_COMMENTS, "Additional Comments");
+        }
+
 }
